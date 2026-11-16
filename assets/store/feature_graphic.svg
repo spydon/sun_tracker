@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 500" width="1024" height="500">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B1F3A"/>
+      <stop offset="0.784" stop-color="#2E5288"/>
+      <stop offset="0.784" stop-color="#16202E"/>
+      <stop offset="1" stop-color="#0E1219"/>
+    </linearGradient>
+    <radialGradient id="dawn" cx="394" cy="392" r="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FF9F6B" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#FF9F6B" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="516.9" cy="172.3" r="150" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.5"/>
+      <stop offset="0.5" stop-color="#FFE08A" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#FFE08A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="disc" cx="0.42" cy="0.4" r="0.65">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#FFF1C2"/>
+      <stop offset="1" stop-color="#FFD45C"/>
+    </radialGradient>
+    <style>
+      text { font-family: -apple-system, "SF Pro Display", "Helvetica Neue", Arial, sans-serif; }
+      .title { font-size: 62px; font-weight: 800; fill: #FFFFFF; letter-spacing: -1px; }
+      .tagline { font-size: 25px; font-weight: 500; fill: #D6E2F5; }
+      .pill { font-size: 14px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; }
+      .compass { font-size: 13px; font-weight: 800; fill: #FFFFFF; text-anchor: middle; }
+      .event { font-size: 14px; font-weight: 700; fill: #FFFFFF; text-anchor: middle; }
+    </style>
+  </defs>
+  <rect width="1024" height="500" fill="url(#sky)"/>
+  <rect width="1024" height="392" fill="url(#dawn)"/>
+  <g fill="none" stroke="#FFFFFF" stroke-opacity="0.2" stroke-width="1.5"><path d="M 574 392 A 90 302 0 0 1 754 392"/><path d="M 474 392 A 190 302 0 0 1 854 392"/><path d="M 364 392 A 300 302 0 0 1 964 392"/><path d="M 343.90000000000003 282 Q 664 256.78 984.0999999999999 282"/><path d="M 400.0 172 Q 664 151.2 928.0 172"/></g>
+  <line x1="0" y1="392" x2="1024" y2="392" stroke="#FFFFFF" stroke-width="3"/>
+  <path d="M 394.0 392.0 L 394.2 382.9 L 394.7 373.7 L 395.5 364.6 L 396.6 355.5 L 398.1 346.5 L 399.9 337.5 L 402.0 328.6 L 404.5 319.8 L 407.2 311.0 L 410.3 302.4 L 413.7 293.9 L 417.3 285.4 L 421.3 277.1 L 425.6 269.0 L 430.2 261.0 L 435.0 253.2 L 440.2 245.5 L 445.6 238.0 L 451.2 230.7 L 457.2 223.6 L 463.4 216.7 L 469.8 210.0 L 476.4 203.5 L 483.3 197.3 L 490.4 191.3 L 497.8 185.5 L 505.3 180.0 L 513.0 174.8 L 520.9 169.8 L 529.0 165.1 L 537.2 160.7 L 545.6 156.5 L 554.2 152.7 L 562.9 149.1 L 571.7 145.8 L 580.6 142.8 L 589.6 140.1 L 598.7 137.8 L 607.9 135.7 L 617.1 134.0 L 626.4 132.5 L 635.8 131.4 L 645.2 130.6 L 654.6 130.2 L 664.0 130.0 L 673.4 130.2 L 682.8 130.6 L 692.2 131.4 L 701.6 132.5 L 710.9 134.0 L 720.1 135.7 L 729.3 137.8 L 738.4 140.1 L 747.4 142.8 L 756.3 145.8 L 765.1 149.1 L 773.8 152.7 L 782.4 156.5 L 790.8 160.7 L 799.0 165.1 L 807.1 169.8 L 815.0 174.8 L 822.7 180.0 L 830.2 185.5 L 837.6 191.3 L 844.7 197.3 L 851.6 203.5 L 858.2 210.0 L 864.6 216.7 L 870.8 223.6 L 876.8 230.7 L 882.4 238.0 L 887.8 245.5 L 893.0 253.2 L 897.8 261.0 L 902.4 269.0 L 906.7 277.1 L 910.7 285.4 L 914.3 293.9 L 917.7 302.4 L 920.8 311.0 L 923.5 319.8 L 926.0 328.6 L 928.1 337.5 L 929.9 346.5 L 931.4 355.5 L 932.5 364.6 L 933.3 373.7 L 933.8 382.9 L 934.0 392.0" fill="none" stroke="#000000" stroke-opacity="0.2" stroke-width="10" stroke-linecap="round"/>
+  <path d="M 394.0 392.0 L 394.2 382.9 L 394.7 373.7 L 395.5 364.6 L 396.6 355.5 L 398.1 346.5 L 399.9 337.5 L 402.0 328.6 L 404.5 319.8 L 407.2 311.0 L 410.3 302.4 L 413.7 293.9 L 417.3 285.4 L 421.3 277.1 L 425.6 269.0 L 430.2 261.0 L 435.0 253.2 L 440.2 245.5 L 445.6 238.0 L 451.2 230.7 L 457.2 223.6 L 463.4 216.7 L 469.8 210.0 L 476.4 203.5 L 483.3 197.3 L 490.4 191.3 L 497.8 185.5 L 505.3 180.0 L 513.0 174.8 L 520.9 169.8 L 529.0 165.1 L 537.2 160.7 L 545.6 156.5 L 554.2 152.7 L 562.9 149.1 L 571.7 145.8 L 580.6 142.8 L 589.6 140.1 L 598.7 137.8 L 607.9 135.7 L 617.1 134.0 L 626.4 132.5 L 635.8 131.4 L 645.2 130.6 L 654.6 130.2 L 664.0 130.0 L 673.4 130.2 L 682.8 130.6 L 692.2 131.4 L 701.6 132.5 L 710.9 134.0 L 720.1 135.7 L 729.3 137.8 L 738.4 140.1 L 747.4 142.8 L 756.3 145.8 L 765.1 149.1 L 773.8 152.7 L 782.4 156.5 L 790.8 160.7 L 799.0 165.1 L 807.1 169.8 L 815.0 174.8 L 822.7 180.0 L 830.2 185.5 L 837.6 191.3 L 844.7 197.3 L 851.6 203.5 L 858.2 210.0 L 864.6 216.7 L 870.8 223.6 L 876.8 230.7 L 882.4 238.0 L 887.8 245.5 L 893.0 253.2 L 897.8 261.0 L 902.4 269.0 L 906.7 277.1 L 910.7 285.4 L 914.3 293.9 L 917.7 302.4 L 920.8 311.0 L 923.5 319.8 L 926.0 328.6 L 928.1 337.5 L 929.9 346.5 L 931.4 355.5 L 932.5 364.6 L 933.3 373.7 L 933.8 382.9 L 934.0 392.0" fill="none" stroke="#F5C542" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="417.3" cy="285.4" r="7" fill="#FF9F43" stroke="#1C1B22" stroke-width="2.5"/><rect x="349.0" y="255.4" width="60" height="26" rx="13" fill="#1C1B22" fill-opacity="0.85"/><text x="379.0" y="273.4" class="pill">09:00</text><circle cx="617.1" cy="134.0" r="7" fill="#FF9F43" stroke="#1C1B22" stroke-width="2.5"/><rect x="579.8" y="79.6" width="60" height="26" rx="13" fill="#1C1B22" fill-opacity="0.85"/><text x="609.8" y="97.6" class="pill">12:00</text><circle cx="790.8" cy="160.7" r="7" fill="#FF9F43" stroke="#1C1B22" stroke-width="2.5"/><rect x="780.5" y="110.6" width="60" height="26" rx="13" fill="#1C1B22" fill-opacity="0.85"/><text x="810.5" y="128.6" class="pill">14:00</text><circle cx="908.7" cy="281.3" r="7" fill="#FF9F43" stroke="#1C1B22" stroke-width="2.5"/><rect x="916.8" y="250.5" width="60" height="26" rx="13" fill="#1C1B22" fill-opacity="0.85"/><text x="946.8" y="268.5" class="pill">16:00</text>
+  <circle cx="473.1" cy="392" r="17" fill="#1C1B22" stroke="#FFFFFF" stroke-width="2"/><text x="473.1" y="397" class="compass">SE</text><circle cx="664.0" cy="392" r="17" fill="#1C1B22" stroke="#FFFFFF" stroke-width="2"/><text x="664.0" y="397" class="compass">S</text><circle cx="854.9" cy="392" r="17" fill="#1C1B22" stroke="#FFFFFF" stroke-width="2"/><text x="854.9" y="397" class="compass">SW</text>
+  <g>
+    <circle cx="394" cy="392" r="9" fill="#FF7EB3" stroke="#FFFFFF" stroke-width="2.5"/>
+    <rect x="332" y="422" width="124" height="28" rx="14" fill="#FF7EB3"/>
+    <text x="394" y="441" class="event">Sunrise 07:45</text>
+    <circle cx="934" cy="392" r="9" fill="#FF7EB3" stroke="#FFFFFF" stroke-width="2.5"/>
+    <rect x="876" y="422" width="116" height="28" rx="14" fill="#FF7EB3"/>
+    <text x="934" y="441" class="event">Sunset 17:18</text>
+  </g>
+  <circle cx="516.9" cy="172.3" r="150" fill="url(#glow)"/>
+  <circle cx="516.9" cy="172.3" r="46" fill="url(#disc)" fill-opacity="0.95"/>
+  <circle cx="516.9" cy="172.3" r="46" fill="none" stroke="#000000" stroke-opacity="0.3" stroke-width="7"/>
+  <circle cx="516.9" cy="172.3" r="46" fill="none" stroke="#F5C542" stroke-width="4"/>
+  <circle cx="516.9" cy="172.3" r="11" fill="#FFF3C4" stroke="#FF3B30" stroke-width="3"/>
+  <g stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"><line x1="568.7" y1="193.7" x2="581.6" y2="199.1"/><line x1="538.4" y1="224.0" x2="543.7" y2="236.9"/><line x1="495.5" y1="224.0" x2="490.2" y2="236.9"/><line x1="465.2" y1="193.7" x2="452.3" y2="199.1"/><line x1="465.2" y1="150.8" x2="452.3" y2="145.5"/><line x1="495.5" y1="120.5" x2="490.2" y2="107.6"/><line x1="538.4" y1="120.5" x2="543.7" y2="107.6"/><line x1="568.7" y1="150.8" x2="581.6" y2="145.5"/></g>
+  <text x="56" y="176" class="title">Sun Tracker</text>
+  <text x="58" y="222" class="tagline">See where the sun will be,</text>
+  <text x="58" y="256" class="tagline">any day of the year.</text>
+</svg>
