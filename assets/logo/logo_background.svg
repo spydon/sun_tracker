@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B1F3A"/>
+      <stop offset="0.69" stop-color="#2B4C7E"/>
+      <stop offset="0.69" stop-color="#16202E"/>
+      <stop offset="1" stop-color="#10141C"/>
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.55"/>
+      <stop offset="0.45" stop-color="#FFE08A" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#FFE08A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="disc" cx="0.42" cy="0.4" r="0.65">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.6" stop-color="#FFF3C4"/>
+      <stop offset="1" stop-color="#FFD966"/>
+    </radialGradient>
+  </defs>
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0B1F3A"/>
+      <stop offset="0.6175" stop-color="#2B4C7E"/>
+      <stop offset="0.6175" stop-color="#16202E"/>
+      <stop offset="1" stop-color="#10141C"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="1024" fill="url(#ground)"/>
+</svg>

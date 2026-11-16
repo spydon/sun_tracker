@@ -1,0 +1,27 @@
+name: sun_tracker
+description: "Augmented reality view of the sun path for any date and time."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.14.0
+
+dependencies:
+  camera: ^0.12.2
+  flutter:
+    sdk: flutter
+  flutter_rotation_sensor: ^0.4.1
+  geolocator: ^14.1.2
+  geomag: ^0.3.0
+  material_ui: ^1.1.0
+  shared_preferences: ^2.5.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/logo/logo.png
