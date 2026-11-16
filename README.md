@@ -7,6 +7,10 @@
 An Android augmented reality app that shows where the sun is, or will be, on
 the sky at your location.
 
+It is free and open source under the [MIT license](LICENSE), with no ads and no
+trackers. The app has no internet access at all, so your location and camera
+view never leave your phone.
+
 [Get it on Google Play][play]
 
 ## What it is for
