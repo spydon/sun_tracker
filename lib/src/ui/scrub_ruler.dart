@@ -166,6 +166,7 @@ class _RulerPainter extends CustomPainter {
   final RulerScale scale;
 
   static const _labelStyle = TextStyle(
+    fontFamily: 'Roboto',
     color: Colors.white70,
     fontSize: 12,
     fontWeight: FontWeight.w500,

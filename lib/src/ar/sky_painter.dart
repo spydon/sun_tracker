@@ -603,7 +603,10 @@ class SkyPainter extends CustomPainter {
       _textCache.clear();
     }
     final painter = TextPainter(
-      text: TextSpan(text: text, style: style),
+      text: TextSpan(
+        text: text,
+        style: style.copyWith(fontFamily: 'Roboto'),
+      ),
       textDirection: TextDirection.ltr,
     )..layout();
     return _textCache[key] = painter;
