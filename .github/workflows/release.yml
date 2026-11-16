@@ -1,7 +1,9 @@
 name: Release APK
 
 on:
-  push:
+  workflow_run:
+    workflows: [cicd]
+    types: [completed]
     branches: [main]
   workflow_dispatch:
 
@@ -14,16 +16,24 @@ concurrency:
 
 jobs:
   release:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push')
     runs-on: ubuntu-latest
+    env:
+      RELEASE_SHA: ${{ github.event.workflow_run.head_sha || github.sha }}
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+        with:
+          ref: ${{ env.RELEASE_SHA }}
 
       - name: Set up Java
         uses: actions/setup-java@v6
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
 
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
@@ -33,15 +43,6 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-
-      - name: Check formatting
-        run: dart format --set-exit-if-changed lib test
-
-      - name: Analyze
-        run: flutter analyze
-
-      - name: Test
-        run: flutter test
 
       - name: Set up signing
         env:
@@ -71,6 +72,6 @@ jobs:
           tag="v${version}-build.${{ github.run_number }}"
           cp build/app/outputs/flutter-apk/app-release.apk "sun-tracker-${version}.apk"
           gh release create "$tag" "sun-tracker-${version}.apk" \
-            --target "${{ github.sha }}" \
+            --target "$RELEASE_SHA" \
             --title "Sun Tracker ${version} (build ${{ github.run_number }})" \
             --generate-notes
