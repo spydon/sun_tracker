@@ -20,8 +20,23 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  melos: ^8.10.1
 
 flutter:
   uses-material-design: true
   assets:
     - assets/logo/logo.png
+
+melos:
+  useRootAsPackage: true
+
+  scripts:
+    format-check:
+      run: melos format --set-exit-if-changed
+      description: Check that all Dart code is formatted.
+
+    test:
+      run: melos exec -- flutter test
+      packageFilters:
+        dirExists: test
+      description: Run the tests.
