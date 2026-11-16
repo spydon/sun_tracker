@@ -58,6 +58,7 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
 
   double _minutes = LocalMinutes.of(DateTime.now());
   bool _isLive = true;
+  bool _isInfoVisible = true;
   Timer? _clock;
 
   SunScene? _scene;
@@ -482,6 +483,9 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
                         sun: _selectedSun,
                         minutes: _minutes,
                         onRetry: _start,
+                        isInfoVisible: _isInfoVisible,
+                        onInfoVisibilityChanged: (visible) =>
+                            setState(() => _isInfoVisible = visible),
                       ),
                     ),
                     TimeControls(
@@ -514,6 +518,8 @@ class _InfoOrStatus extends StatelessWidget {
     required this.sun,
     required this.minutes,
     required this.onRetry,
+    required this.isInfoVisible,
+    required this.onInfoVisibilityChanged,
   });
 
   final _LocationStatus status;
@@ -522,6 +528,8 @@ class _InfoOrStatus extends StatelessWidget {
   final SunPosition? sun;
   final double minutes;
   final VoidCallback onRetry;
+  final bool isInfoVisible;
+  final ValueChanged<bool> onInfoVisibilityChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -529,12 +537,34 @@ class _InfoOrStatus extends StatelessWidget {
     final scene = this.scene;
     final sun = this.sun;
     if (position != null && scene != null && sun != null) {
-      return SunInfoCard(
-        date: LocalMinutes.toDateTime(minutes),
-        day: scene.day,
-        sun: sun,
-        latitude: position.latitude,
-        longitude: position.longitude,
+      return AnimatedSwitcher(
+        duration: const Duration(milliseconds: 200),
+        layoutBuilder: (current, previous) => Stack(
+          alignment: Alignment.bottomLeft,
+          children: [...previous, ?current],
+        ),
+        transitionBuilder: (child, animation) => FadeTransition(
+          opacity: animation,
+          child: ScaleTransition(
+            scale: animation,
+            alignment: Alignment.bottomLeft,
+            child: child,
+          ),
+        ),
+        child: isInfoVisible
+            ? SunInfoCard(
+                key: const ValueKey('info'),
+                date: LocalMinutes.toDateTime(minutes),
+                day: scene.day,
+                sun: sun,
+                latitude: position.latitude,
+                longitude: position.longitude,
+                onHide: () => onInfoVisibilityChanged(false),
+              )
+            : ShowInfoButton(
+                key: const ValueKey('show'),
+                onPressed: () => onInfoVisibilityChanged(true),
+              ),
       );
     }
     return switch (status) {

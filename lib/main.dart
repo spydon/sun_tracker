@@ -11,6 +11,8 @@ Future<void> main() async {
   runApp(SunTrackerApp(calibration: calibration));
 }
 
+const _seedColor = Color(0xFFF5A623);
+
 class SunTrackerApp extends StatelessWidget {
   const SunTrackerApp({required this.calibration, super.key});
 
@@ -21,9 +23,13 @@ class SunTrackerApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sun Tracker',
       debugShowCheckedModeBanner: false,
+      themeMode: ThemeMode.system,
       theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: _seedColor),
+      ),
+      darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFF5A623),
+          seedColor: _seedColor,
           brightness: Brightness.dark,
         ),
       ),

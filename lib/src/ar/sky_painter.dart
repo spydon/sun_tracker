@@ -344,21 +344,39 @@ class SkyPainter extends CustomPainter {
     }
     final radius = projection.focalLength * math.tan(sun.angularRadius);
     final isAbove = sun.isAboveHorizon;
-    final glowRadius = math.max(radius * 4, 34.0);
+    final sunRadius = math.max(radius * 4, 34.0);
+    final sunCircle = Rect.fromCircle(center: center, radius: sunRadius);
 
     canvas.drawCircle(
       center,
-      glowRadius,
+      sunRadius,
       Paint()
         ..shader = RadialGradient(
           colors: [
-            Colors.white.withValues(alpha: isAbove ? 0.55 : 0.2),
-            const Color(0xFFFFE08A).withValues(alpha: isAbove ? 0.25 : 0.08),
-            const Color(0x00FFE08A),
+            Colors.white.withValues(alpha: isAbove ? 0.9 : 0.45),
+            const Color(0xFFFFE9A8).withValues(alpha: isAbove ? 0.75 : 0.35),
+            const Color(0xFFFFD45C).withValues(alpha: isAbove ? 0.6 : 0.3),
           ],
-          stops: const [0, 0.35, 1],
-        ).createShader(Rect.fromCircle(center: center, radius: glowRadius)),
+          stops: const [0, 0.5, 1],
+        ).createShader(sunCircle),
     );
+    canvas.drawCircle(
+      center,
+      sunRadius,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 5
+        ..color = Colors.black.withValues(alpha: 0.3),
+    );
+    canvas.drawCircle(
+      center,
+      sunRadius,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2.5
+        ..color = isAbove ? _pathColor : Colors.white70,
+    );
+
     canvas.drawPath(
       outline,
       Paint()..color = const Color(0xFFFFF3C4).withValues(alpha: 0.35),
@@ -372,11 +390,11 @@ class SkyPainter extends CustomPainter {
     );
 
     final tickPaint = Paint()
-      ..strokeWidth = 1.6
+      ..strokeWidth = 2
       ..strokeCap = StrokeCap.round
       ..color = Colors.white.withValues(alpha: 0.9);
-    final inner = radius + 5;
-    final outer = radius + 12;
+    final inner = sunRadius + 5;
+    final outer = sunRadius + 12;
     for (var quarter = 0; quarter < 4; quarter++) {
       final angle = quarter * math.pi / 2 + math.pi / 4;
       final unit = Offset(math.cos(angle), math.sin(angle));
@@ -478,7 +496,7 @@ class SkyPainter extends CustomPainter {
       Paint()
         ..color = sun.isAboveHorizon
             ? _pathColor
-            : _pathColor.withValues(alpha: 0.4),
+            : _pathColor.withValues(alpha: 0.7),
     );
   }
 
