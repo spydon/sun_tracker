@@ -24,7 +24,7 @@ class CalibrationSheet extends StatelessWidget {
         final offset = calibration.headingOffset;
         final scale = calibration.fieldOfViewScale;
         return SafeArea(
-          child: Padding(
+          child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 4, 20, 16),
             child: Column(
               mainAxisSize: MainAxisSize.min,

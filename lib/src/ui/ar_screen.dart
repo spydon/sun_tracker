@@ -334,6 +334,8 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
     );
   }
 
+      isScrollControlled: true,
+      useSafeArea: true,
   Size get _portraitPreviewSize {
     final previewSize = _camera?.value.previewSize;
     if (previewSize == null) {
