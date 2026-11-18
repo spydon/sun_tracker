@@ -1,6 +1,8 @@
 package dev.spydon.sun_tracker
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.hardware.camera2.CameraCharacteristics
 import android.hardware.camera2.CameraManager
 import io.flutter.embedding.android.FlutterActivity
@@ -19,6 +21,9 @@ class MainActivity : FlutterActivity() {
                     val cameraId = call.argument<String>("cameraId")
                     result.success(cameraId?.let { longSideFieldOfView(it) })
                 }
+                "hasCameraPermission" -> result.success(
+                    checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED,
+                )
                 else -> result.notImplemented()
             }
         }

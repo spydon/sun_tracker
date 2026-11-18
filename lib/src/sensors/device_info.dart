@@ -35,4 +35,12 @@ class DeviceInfo {
       return null;
     }
   }
+
+  static Future<bool> hasCameraPermission() async {
+    try {
+      return await _channel.invokeMethod<bool>('hasCameraPermission') ?? false;
+    } on PlatformException {
+      return false;
+    }
+  }
 }

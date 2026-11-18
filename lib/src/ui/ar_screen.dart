@@ -76,12 +76,13 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
 
   Future<void>? _starting;
   bool _cameraStarting = false;
+  bool _cameraDenied = false;
 
-  Future<void> _start() {
+  Future<void> _start({bool requestPermissions = true}) {
     return _starting ??= () async {
       try {
-        await _initLocation();
-        await _initCamera();
+        await _initLocation(requestPermission: requestPermissions);
+        await _initCamera(requestPermission: requestPermissions);
       } finally {
         _starting = null;
       }
@@ -110,9 +111,9 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
         _orientation.start();
         if (_starting == null) {
           if (_locationStatus != _LocationStatus.ready) {
-            _start();
+            _start(requestPermissions: false);
           } else {
-            _initCamera();
+            _initCamera(requestPermission: false);
           }
         }
       case AppLifecycleState.inactive || AppLifecycleState.detached:
@@ -120,7 +121,7 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
     }
   }
 
-  Future<void> _initLocation() async {
+  Future<void> _initLocation({required bool requestPermission}) async {
     if (_positionSubscription != null) {
       return;
     }
@@ -132,7 +133,7 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
       return;
     }
     var permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
+    if (permission == LocationPermission.denied && requestPermission) {
       permission = await Geolocator.requestPermission();
     }
     if (!mounted) {
@@ -192,12 +193,17 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
     });
   }
 
-  Future<void> _initCamera() async {
+  Future<void> _initCamera({required bool requestPermission}) async {
     if (_camera != null || _cameraStarting) {
       return;
     }
     _cameraStarting = true;
     try {
+      if (_cameraDenied &&
+          !requestPermission &&
+          !await DeviceInfo.hasCameraPermission()) {
+        return;
+      }
       final cameras = await availableCameras();
       final description =
           cameras
@@ -227,6 +233,7 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
       _zoom = _zoom.clamp(minZoom, math.min(maxZoom, 10));
       await controller.setZoomLevel(_zoom);
       setState(() {
+        _cameraDenied = false;
         _cameraError = null;
         _minZoom = minZoom;
         _maxZoom = math.min(maxZoom, 10);
@@ -236,6 +243,7 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
       });
     } on CameraException catch (exception) {
       _camera = null;
+      _cameraDenied = exception.code == 'CameraAccessDenied';
       if (mounted) {
         setState(() {
           _cameraError = exception.code == 'CameraAccessDenied'
@@ -326,6 +334,8 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
+      isScrollControlled: true,
+      useSafeArea: true,
       builder: (context) => CalibrationSheet(
         calibration: widget.calibration,
         detectedFieldOfView: _fieldOfView,
@@ -334,8 +344,6 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
     );
   }
 
-      isScrollControlled: true,
-      useSafeArea: true,
   Size get _portraitPreviewSize {
     final previewSize = _camera?.value.previewSize;
     if (previewSize == null) {
