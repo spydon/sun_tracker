@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:camera/camera.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:sun_tracker/src/ar/sky_painter.dart';
@@ -358,160 +359,167 @@ class _ArScreenState extends State<ArScreen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final mediaPadding = MediaQuery.paddingOf(context);
-    return Scaffold(
-      backgroundColor: Colors.black,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          final size = constraints.biggest;
-          final previewSize = _portraitPreviewSize;
-          final coverScale = math.max(
-            size.width / previewSize.width,
-            size.height / previewSize.height,
-          );
-          final longSide = previewSize.height * coverScale;
-          return Stack(
-            children: [
-              Positioned.fill(
-                child: CameraBackground(
-                  controller: _camera,
-                  previewSize: previewSize,
-                ),
-              ),
-              Positioned.fill(
-                child: GestureDetector(
-                  onScaleStart: (_) => _zoomAtScaleStart = _zoom,
-                  onScaleUpdate: (details) {
-                    if (details.pointerCount >= 2) {
-                      _setZoom(_zoomAtScaleStart * details.scale);
-                    }
-                  },
-                  onDoubleTap: () => _setZoom(1),
-                  child: ListenableBuilder(
-                    listenable: widget.calibration,
-                    builder: (context, _) {
-                      final fieldOfView =
-                          _fieldOfView *
-                          widget.calibration.fieldOfViewScale *
-                          math.pi /
-                          180;
-                      return CustomPaint(
-                        size: size,
-                        painter: SkyPainter(
-                          orientation: _orientation,
-                          northOffset: _northOffset,
-                          focalLength:
-                              longSide / 2 / math.tan(fieldOfView / 2) * _zoom,
-                          scene: _scene,
-                          selected: _selectedSun,
-                          overlayInsets: EdgeInsets.only(
-                            top: mediaPadding.top + 56,
-                            bottom: _bottomControlsHeight + mediaPadding.bottom,
-                          ),
-                        ),
-                      );
-                    },
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light,
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: LayoutBuilder(
+          builder: (context, constraints) {
+            final size = constraints.biggest;
+            final previewSize = _portraitPreviewSize;
+            final coverScale = math.max(
+              size.width / previewSize.width,
+              size.height / previewSize.height,
+            );
+            final longSide = previewSize.height * coverScale;
+            return Stack(
+              children: [
+                Positioned.fill(
+                  child: CameraBackground(
+                    controller: _camera,
+                    previewSize: previewSize,
                   ),
                 ),
-              ),
-              Positioned(
-                top: 0,
-                left: 0,
-                right: 0,
-                child: SafeArea(
-                  bottom: false,
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ListenableBuilder(
-                                listenable: widget.calibration,
-                                builder: (context, _) => Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: HeadingIndicator(
-                                    orientation: _orientation,
-                                    northOffset: _northOffset,
+                Positioned.fill(
+                  child: GestureDetector(
+                    onScaleStart: (_) => _zoomAtScaleStart = _zoom,
+                    onScaleUpdate: (details) {
+                      if (details.pointerCount >= 2) {
+                        _setZoom(_zoomAtScaleStart * details.scale);
+                      }
+                    },
+                    onDoubleTap: () => _setZoom(1),
+                    child: ListenableBuilder(
+                      listenable: widget.calibration,
+                      builder: (context, _) {
+                        final fieldOfView =
+                            _fieldOfView *
+                            widget.calibration.fieldOfViewScale *
+                            math.pi /
+                            180;
+                        return CustomPaint(
+                          size: size,
+                          painter: SkyPainter(
+                            orientation: _orientation,
+                            northOffset: _northOffset,
+                            focalLength:
+                                longSide /
+                                2 /
+                                math.tan(fieldOfView / 2) *
+                                _zoom,
+                            scene: _scene,
+                            selected: _selectedSun,
+                            overlayInsets: EdgeInsets.only(
+                              top: mediaPadding.top + 56,
+                              bottom:
+                                  _bottomControlsHeight + mediaPadding.bottom,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  child: SafeArea(
+                    bottom: false,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 8, 0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ListenableBuilder(
+                                  listenable: widget.calibration,
+                                  builder: (context, _) => Align(
+                                    alignment: Alignment.centerLeft,
+                                    child: HeadingIndicator(
+                                      orientation: _orientation,
+                                      northOffset: _northOffset,
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            if (_zoom > 1.05)
-                              TextButton(
-                                onPressed: () => _setZoom(1),
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Colors.white,
+                              if (_zoom > 1.05)
+                                TextButton(
+                                  onPressed: () => _setZoom(1),
+                                  style: TextButton.styleFrom(
+                                    foregroundColor: Colors.white,
+                                  ),
+                                  child: Text('${_zoom.toStringAsFixed(1)}×'),
                                 ),
-                                child: Text('${_zoom.toStringAsFixed(1)}×'),
+                              IconButton(
+                                tooltip: 'Calibration',
+                                color: Colors.white,
+                                style: IconButton.styleFrom(
+                                  backgroundColor: const Color(0xB31C1B22),
+                                ),
+                                onPressed: _showCalibration,
+                                icon: const Icon(Icons.tune),
                               ),
-                            IconButton(
-                              tooltip: 'Calibration',
-                              color: Colors.white,
-                              style: IconButton.styleFrom(
-                                backgroundColor: const Color(0xB31C1B22),
-                              ),
-                              onPressed: _showCalibration,
-                              icon: const Icon(Icons.tune),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: CompassAccuracyWarning(
-                            orientation: _orientation,
+                            ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: CompassAccuracyWarning(
+                              orientation: _orientation,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (_cameraError case final error?)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (_cameraError case final error?)
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                          child: Text(
+                            error,
+                            style: const TextStyle(color: Colors.white70),
+                          ),
+                        ),
                       Padding(
-                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-                        child: Text(
-                          error,
-                          style: const TextStyle(color: Colors.white70),
+                        padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                        child: _InfoOrStatus(
+                          status: _locationStatus,
+                          position: _position,
+                          scene: _scene,
+                          sun: _selectedSun,
+                          minutes: _minutes,
+                          onRetry: _start,
+                          isInfoVisible: _isInfoVisible,
+                          onInfoVisibilityChanged: (visible) =>
+                              setState(() => _isInfoVisible = visible),
                         ),
                       ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-                      child: _InfoOrStatus(
-                        status: _locationStatus,
-                        position: _position,
-                        scene: _scene,
-                        sun: _selectedSun,
+                      TimeControls(
                         minutes: _minutes,
-                        onRetry: _start,
-                        isInfoVisible: _isInfoVisible,
-                        onInfoVisibilityChanged: (visible) =>
-                            setState(() => _isInfoVisible = visible),
+                        isLive: _isLive,
+                        onMinutesChanged: _setMinutes,
+                        onDayChanged: _setDay,
+                        onResetToNow: _resetToNow,
+                        onPickDate: _pickDate,
                       ),
-                    ),
-                    TimeControls(
-                      minutes: _minutes,
-                      isLive: _isLive,
-                      onMinutesChanged: _setMinutes,
-                      onDayChanged: _setDay,
-                      onResetToNow: _resetToNow,
-                      onPickDate: _pickDate,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
